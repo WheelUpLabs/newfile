@@ -33,7 +33,7 @@ final class FinderSync: FIFinderSync {
                               action: #selector(createNewFile(_:)),
                               keyEquivalent: "")
         item.target = self
-        item.image = Self.toolbarIcon(accessibility: nil)
+        item.image = Self.menuIcon()
         nsMenu.addItem(item)
         return nsMenu
     }
@@ -51,6 +51,20 @@ final class FinderSync: FIFinderSync {
             ?? NSImage()
         fallback.isTemplate = true
         return fallback
+    }
+
+    // Context-menu row uses the canonical macOS "compose" SF Symbol. Template
+    // tinting through the Finder-Sync extension XPC path is unreliable in
+    // current macOS, so we apply an explicit palette tint with the dynamic
+    // labelColor — resolves to ~white in dark menus, ~black in light menus,
+    // matching the system items above.
+    private static func menuIcon() -> NSImage {
+        guard let base = NSImage(systemSymbolName: "square.and.pencil",
+                                 accessibilityDescription: "New File") else {
+            return NSImage()
+        }
+        let config = NSImage.SymbolConfiguration(paletteColors: [.labelColor])
+        return base.withSymbolConfiguration(config) ?? base
     }
 
     // MARK: - Action
