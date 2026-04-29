@@ -111,8 +111,8 @@ struct ContentView: View {
                     .buttonStyle(.link)
                     .font(.caption)
             }
-            Link("github.com/WheelUpLabs/newfile",
-                 destination: URL(string: "https://github.com/WheelUpLabs/newfile")!)
+            Link("github.com/mariusgm/newfile",
+                 destination: URL(string: "https://github.com/mariusgm/newfile")!)
                 .font(.caption)
                 .foregroundStyle(.tertiary)
         }

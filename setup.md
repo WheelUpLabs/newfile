@@ -12,7 +12,7 @@ This guide covers what you need to do *beyond* `xcodegen generate && xcodebuild`
 ## First-time setup
 
 ```sh
-git clone https://github.com/WheelUpLabs/newfile.git
+git clone https://github.com/mariusgm/newfile.git
 cd newfile
 xcodegen generate
 open NewFile.xcodeproj
@@ -120,10 +120,10 @@ After the first signed + notarized release is on GitHub:
      version "0.1.0"
      sha256 "..."
 
-     url "https://github.com/WheelUpLabs/newfile/releases/download/v#{version}/NewFile.dmg"
+     url "https://github.com/mariusgm/newfile/releases/download/v#{version}/NewFile.dmg"
      name "NewFile"
      desc "New File button for the macOS Finder"
-     homepage "https://github.com/WheelUpLabs/newfile"
+     homepage "https://github.com/mariusgm/newfile"
 
      app "NewFile.app"
 

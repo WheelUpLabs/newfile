@@ -23,7 +23,7 @@ brew install --cask newfile
 
 ### Manual
 
-1. Download the latest `NewFile.dmg` from [Releases](https://github.com/WheelUpLabs/newfile/releases).
+1. Download the latest `NewFile.dmg` from [Releases](https://github.com/mariusgm/newfile/releases).
 2. Drag `NewFile.app` to `/Applications`.
 3. Launch it once. Follow the in-app instructions to enable the Finder extension.
 
@@ -47,7 +47,7 @@ The created file is named `New Text File.txt`. If that name exists, it becomes `
 ## Build from source
 
 ```sh
-git clone https://github.com/WheelUpLabs/newfile.git
+git clone https://github.com/mariusgm/newfile.git
 cd newfile
 brew install xcodegen
 xcodegen generate
