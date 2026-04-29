@@ -1,0 +1,13 @@
+<!-- Toolbar template icon: page rect + centered I-beam cursor.
+     Designed on a 32-unit grid for pixel-perfect rendering at 32px (1x)
+     and 64px (2x). Black on transparent; macOS recolors via isTemplate=YES. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <mask id="m">
+    <rect width="32" height="32" fill="#000"/>
+    <rect x="6" y="2" width="20" height="28" rx="2" fill="#fff"/>
+    <rect x="15" y="10" width="2" height="12" fill="#000"/>
+    <rect x="12" y="10" width="8" height="1" fill="#000"/>
+    <rect x="12" y="21" width="8" height="1" fill="#000"/>
+  </mask>
+  <rect width="32" height="32" fill="#000" mask="url(#m)"/>
+</svg>

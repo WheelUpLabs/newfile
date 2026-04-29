@@ -22,8 +22,7 @@ final class FinderSync: FIFinderSync {
     override var toolbarItemToolTip: String { "Create a new text file in this folder" }
 
     override var toolbarItemImage: NSImage {
-        Self.monochromeSymbol(name: "square.and.pencil",
-                              accessibility: "New File")
+        Self.toolbarIcon(accessibility: "New File")
     }
 
     // MARK: - Menus
@@ -34,27 +33,24 @@ final class FinderSync: FIFinderSync {
                               action: #selector(createNewFile(_:)),
                               keyEquivalent: "")
         item.target = self
-        item.image = Self.monochromeSymbol(name: "square.and.pencil",
-                                           accessibility: nil)
+        item.image = Self.toolbarIcon(accessibility: nil)
         nsMenu.addItem(item)
         return nsMenu
     }
 
-    private static func monochromeSymbol(name: String,
-                                         accessibility: String?) -> NSImage {
-        let base = NSImage(systemSymbolName: name,
-                           accessibilityDescription: accessibility)
-            ?? NSImage(named: NSImage.addTemplateName)
+    private static func toolbarIcon(accessibility: String?) -> NSImage {
+        let bundle = Bundle(for: FinderSync.self)
+        if let image = bundle.image(forResource: "ToolbarIcon") {
+            image.isTemplate = true
+            image.accessibilityDescription = accessibility
+            return image
+        }
+        // Fallback if asset is missing — keeps the toolbar item usable.
+        let fallback = NSImage(systemSymbolName: "square.and.pencil",
+                               accessibilityDescription: accessibility)
             ?? NSImage()
-        // Belt-and-braces monochrome: palette config forcing labelColor +
-        // preferringMonochrome + isTemplate. SF Symbols with multicolor
-        // defaults (e.g. doc.badge.plus) ignore preferringMonochrome alone.
-        let palette = NSImage.SymbolConfiguration(paletteColors: [.labelColor])
-        let mono = NSImage.SymbolConfiguration.preferringMonochrome()
-        let combined = palette.applying(mono)
-        let image = base.withSymbolConfiguration(combined) ?? base
-        image.isTemplate = true
-        return image
+        fallback.isTemplate = true
+        return fallback
     }
 
     // MARK: - Action
