@@ -29,3 +29,8 @@ release/export/
 
 # Notes
 NOTES.local.md
+
+# Site source recordings (kept locally for re-export, not committed)
+site/assets/*.mov
+site/assets/*.tmp
+site/.demo-notes.md
