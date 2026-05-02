@@ -1,0 +1,11 @@
+<!-- NewFile favicon · 32×32 viewport. Squircle + cream frame + thickened I-stem only.
+     Crossbars dropped because they collapse to invisible at 16 px. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#1C1714"/>
+  <mask id="frame">
+    <rect width="32" height="32" fill="#fff"/>
+    <rect x="6" y="5" width="20" height="22" rx="1.5" fill="#000"/>
+  </mask>
+  <rect x="4.5" y="3.5" width="23" height="25" rx="2.5" fill="#FAF7F2" mask="url(#frame)"/>
+  <rect x="9" y="7" width="2.5" height="11" fill="#FF7849"/>
+</svg>

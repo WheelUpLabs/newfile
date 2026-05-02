@@ -1,0 +1,23 @@
+<!-- NewFile · macOS app icon · 1024×1024.
+     Inverted treatment for dark Dock parity:
+       squircle  #1C1714 (warm dark)
+       frame     #FAF7F2 (cream)
+       cursor    #FF7849 (softer peachy orange)
+     Frame outer 736×810 (~72% canvas) — pulled back from 780; matches the
+     proportion zone of Xcode/Keychain. Stroke 48 px (solid presence).
+     Cursor at original master absolute size, anchored at 10% / 7% inset
+     from inner top-left corner so it reads as "cursor at start of empty
+     document" rather than drifting toward visual center. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" rx="200" fill="#1C1714"/>
+  <mask id="frame">
+    <rect width="1024" height="1024" fill="#fff"/>
+    <rect x="192" y="155" width="640" height="714" rx="37" fill="#000"/>
+  </mask>
+  <rect x="144" y="107" width="736" height="810" rx="74" fill="#FAF7F2" mask="url(#frame)"/>
+  <g fill="#FF7849">
+    <rect x="256" y="205" width="28.125" height="101.25"/>
+    <rect x="230.6875" y="205" width="78.75" height="16.875"/>
+    <rect x="230.6875" y="289.375" width="78.75" height="16.875"/>
+  </g>
+</svg>
