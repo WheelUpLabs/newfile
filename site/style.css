@@ -219,7 +219,8 @@ a:hover { text-decoration-color: var(--accent); }
 
 .enable-img {
   display: block;
-  max-width: 100%;
+  max-width: 469px;
+  width: 100%;
   margin: 0 auto;
   border: 1px solid var(--border);
   border-radius: 8px;
