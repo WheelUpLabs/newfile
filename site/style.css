@@ -218,7 +218,9 @@ a:hover { text-decoration-color: var(--accent); }
 .enable-steps strong { color: var(--text); font-weight: 500; }
 
 .enable-img {
-  width: 100%;
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
   border: 1px solid var(--border);
   border-radius: 8px;
 }
