@@ -14,6 +14,36 @@
       <p class="hero-tagline">The New File button macOS forgot.</p>
       <p class="hero-sub">Free, open-source, native. A small Finder extension that adds &lsquo;New Text File&rsquo; to the right-click menu and toolbar.</p>
     </section>
+
+    <section class="install">
+      <div class="install-card">
+        <code id="brew-cmd">brew install --cask newfile</code>
+        <button type="button" class="copy-btn" data-target="brew-cmd" aria-label="Copy install command">Copy</button>
+      </div>
+      <a class="install-card install-dmg" href="https://github.com/mariusgm/newfile/releases/latest/download/NewFile.dmg">
+        Download NewFile.dmg
+        <span class="install-arrow" aria-hidden="true">↓</span>
+      </a>
+      <p class="install-caveat">macOS 13 or later, universal binary.</p>
+    </section>
   </main>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (!target) return;
+        try {
+          await navigator.clipboard.writeText(target.textContent.trim());
+          const original = btn.textContent;
+          btn.textContent = 'Copied';
+          btn.classList.add('copied');
+          setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1400);
+        } catch (e) {
+          btn.textContent = 'Press ⌘C';
+          setTimeout(() => { btn.textContent = 'Copy'; }, 1400);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

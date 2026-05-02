@@ -106,3 +106,52 @@ a:hover { text-decoration-color: var(--accent); }
   .hero-tagline { font-size: 18px; }
   .hero-sub { font-size: 14px; }
 }
+
+/* ---------- install ---------- */
+.install { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 60px; }
+.install-caveat { grid-column: 1 / -1; text-align: center; font-size: 13px; color: var(--text-dim); margin: 8px 0 0; }
+
+.install-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.install-card code {
+  color: var(--text);
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.copy-btn {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+.copy-btn.copied { color: var(--accent); border-color: var(--accent); }
+
+.install-dmg {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.install-dmg:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+.install-arrow { margin-left: 6px; }
+
+@media (max-width: 600px) {
+  .install { grid-template-columns: 1fr; }
+}
