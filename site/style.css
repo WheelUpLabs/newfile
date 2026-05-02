@@ -211,3 +211,14 @@ a:hover { text-decoration-color: var(--accent); }
   border-radius: 3px;
   color: var(--text);
 }
+
+/* ---------- enable ---------- */
+.enable-steps { padding-left: 22px; margin: 0 0 24px; color: var(--text-mute); font-size: 15px; }
+.enable-steps li { margin: 0 0 10px; }
+.enable-steps strong { color: var(--text); font-weight: 500; }
+
+.enable-img {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
