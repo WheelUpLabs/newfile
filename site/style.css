@@ -155,3 +155,13 @@ a:hover { text-decoration-color: var(--accent); }
 @media (max-width: 600px) {
   .install { grid-template-columns: 1fr; }
 }
+
+/* ---------- demo ---------- */
+.demo { margin: 0 0 80px; }
+.demo-img {
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(250, 247, 242, 0.06);
+  border-radius: 8px;
+  display: block;
+}
