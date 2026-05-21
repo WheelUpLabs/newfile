@@ -138,17 +138,11 @@ final class FinderSync: FIFinderSync {
     }
 
     private static func toolbarIcon(accessibility: String?) -> NSImage {
-        let bundle = Bundle(for: FinderSync.self)
-        if let image = bundle.image(forResource: "ToolbarIcon") {
-            image.isTemplate = true
-            image.accessibilityDescription = accessibility
-            return image
-        }
-        let fallback = NSImage(systemSymbolName: "square.and.pencil",
-                               accessibilityDescription: accessibility)
+        let image = NSImage(systemSymbolName: "square.and.pencil",
+                            accessibilityDescription: accessibility)
             ?? NSImage()
-        fallback.isTemplate = true
-        return fallback
+        image.isTemplate = true
+        return image
     }
 
     private static func menuIcon() -> NSImage {
