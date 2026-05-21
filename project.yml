@@ -7,6 +7,11 @@ options:
   createIntermediateGroups: true
   generateEmptyDirectories: true
 
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: 2.7.0
+
 settings:
   base:
     SWIFT_VERSION: "5.10"
@@ -40,6 +45,11 @@ targets:
         LSApplicationCategoryType: public.app-category.utilities
         LSUIElement: false
         NSHumanReadableCopyright: "Copyright © 2026 mariusgm. MIT licensed."
+        SUFeedURL: https://newfile.dev/appcast.xml
+        SUPublicEDKey: VNFrAAvp01AWAL4Fiu+UqH9avAFZGy+vEgf9G9Ri3nk= # gitleaks:allow (Sparkle EdDSA public key, safe to commit)
+        SUEnableAutomaticChecks: true
+        SUEnableInstallerLauncherService: true
+        SUScheduledCheckInterval: 86400
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.newfile.NewFile
@@ -50,6 +60,7 @@ targets:
       - target: NewFileExtension
         embed: true
       - sdk: FinderSync.framework
+      - package: Sparkle
 
   NewFileExtension:
     type: app-extension

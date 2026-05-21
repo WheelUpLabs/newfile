@@ -28,5 +28,15 @@
 	<false/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 mariusgm. MIT licensed.</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUEnableInstallerLauncherService</key>
+	<true/>
+	<key>SUFeedURL</key>
+	<string>https://newfile.dev/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>VNFrAAvp01AWAL4Fiu+UqH9avAFZGy+vEgf9G9Ri3nk=</string>
+	<key>SUScheduledCheckInterval</key>
+	<integer>86400</integer>
 </dict>
 </plist>

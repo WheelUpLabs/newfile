@@ -1,9 +1,16 @@
 import AppKit
+import Sparkle
 import SwiftUI
 
 @main
 struct NewFileApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+
+    private let updaterController = SPUStandardUpdaterController(
+        startingUpdater: true,
+        updaterDelegate: nil,
+        userDriverDelegate: nil
+    )
 
     var body: some Scene {
         WindowGroup("NewFile") {
@@ -11,6 +18,13 @@ struct NewFileApp: App {
         }
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
+        .commands {
+            CommandGroup(after: .appInfo) {
+                Button("Check for Updates…") {
+                    updaterController.checkForUpdates(nil)
+                }
+            }
+        }
 
         Settings {
             PreferencesView()
