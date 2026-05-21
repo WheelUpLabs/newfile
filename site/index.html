@@ -114,7 +114,7 @@
         Download NewFile.dmg
         <span class="install-arrow" aria-hidden="true">↓</span>
       </a>
-      <p class="install-brew-hint">or <code>brew install --cask mariusgm/newfile/newfile</code></p>
+      <p class="install-brew-hint">or <button type="button" class="install-brew-copy" data-copy="brew install --cask mariusgm/newfile/newfile" aria-label="Copy install command to clipboard"><code class="install-brew-cmd">brew install --cask mariusgm/newfile/newfile</code><span class="install-brew-copied" aria-hidden="true">Copied</span></button></p>
       <p class="install-caveat">macOS 13 or later, universal binary.</p>
     </section>
 
@@ -180,5 +180,31 @@
     <span aria-hidden="true">·</span>
     <a href="https://github.com/mariusgm/newfile/releases">Releases</a>
   </footer>
+  <script>
+    document.querySelectorAll('.install-brew-copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy');
+        var done = function () {
+          btn.classList.add('is-copied');
+          setTimeout(function () { btn.classList.remove('is-copied'); }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () {
+            var range = document.createRange();
+            range.selectNodeContents(btn.querySelector('.install-brew-cmd'));
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          });
+        } else {
+          var range = document.createRange();
+          range.selectNodeContents(btn.querySelector('.install-brew-cmd'));
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

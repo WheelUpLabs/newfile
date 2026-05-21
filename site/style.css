@@ -137,7 +137,21 @@ a:hover { text-decoration-color: var(--accent); }
   margin: 4px 0 0;
   line-height: 1.8;
 }
-.install-brew-hint code {
+.install-brew-copy {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.install-brew-copy .install-brew-cmd,
+.install-brew-copy .install-brew-copied {
   display: inline-block;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   font-size: 12px;
@@ -148,9 +162,25 @@ a:hover { text-decoration-color: var(--accent); }
   padding: 2px 8px;
   white-space: nowrap;
   max-width: 100%;
-  overflow-x: auto;
   vertical-align: middle;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
+.install-brew-copy:hover .install-brew-cmd,
+.install-brew-copy:focus-visible .install-brew-cmd {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+.install-brew-copy .install-brew-copied {
+  position: absolute;
+  inset: 0;
+  display: none;
+  color: var(--accent);
+  border-color: var(--accent);
+  text-align: center;
+}
+.install-brew-copy.is-copied .install-brew-cmd { visibility: hidden; }
+.install-brew-copy.is-copied .install-brew-copied { display: inline-block; }
 
 
 /* ---------- demo ---------- */
