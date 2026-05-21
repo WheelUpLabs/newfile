@@ -32,8 +32,9 @@ The macOS shell does not ship a "New File" action by design — Apple expects us
 
 ## Install
 
-- **Direct download (works today):** `NewFile.dmg` from <https://github.com/mariusgm/newfile/releases/latest>. Mount, drag NewFile.app to `/Applications`, launch once, enable the Finder extension in **System Settings → General → Login Items & Extensions**.
-- **Homebrew (pending acceptance):** a cask submission is open at <https://github.com/Homebrew/homebrew-cask/pull/265525>. Once merged, `brew install --cask newfile` installs the same DMG and handles upgrades.
+- **Homebrew (works today):** `brew install --cask mariusgm/newfile/newfile`. Auto-taps the personal cask repository at <https://github.com/mariusgm/homebrew-newfile> and installs the latest signed DMG. Future releases land via `brew upgrade --cask newfile`.
+- **Direct download:** `NewFile.dmg` from <https://github.com/mariusgm/newfile/releases/latest>. Mount, drag NewFile.app to `/Applications`, launch once, enable the Finder extension in **System Settings → General → Login Items & Extensions**.
+- **Official Homebrew cask (pending):** a submission to the main Homebrew tap is open at <https://github.com/Homebrew/homebrew-cask/pull/265525>, gated on the source repository clearing Homebrew's notability threshold. Once merged, `brew install --cask newfile` (without the tap prefix) will work.
 
 ## System requirements
 

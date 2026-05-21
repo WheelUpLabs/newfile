@@ -130,6 +130,18 @@ a:hover { text-decoration-color: var(--accent); }
 .install-dmg:hover { text-decoration: underline; text-decoration-color: var(--accent); }
 .install-arrow { margin-left: 6px; }
 
+.install-brew {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.install-brew-line { display: flex; gap: 8px; }
+.install-brew-prefix { color: var(--text-dim); user-select: none; }
+.install-brew code { color: var(--text); }
+
 
 /* ---------- demo ---------- */
 .demo { margin: 0 0 80px; }
