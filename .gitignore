@@ -30,6 +30,11 @@ release/export/
 # Notes
 NOTES.local.md
 
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
 # Site source recordings (kept locally for re-export, not committed)
 site/assets/*.mov
 site/assets/*.tmp
