@@ -39,7 +39,7 @@
         "description": "A free, open-source macOS Finder Sync Extension that adds a 'New Text File' option to the right-click menu and toolbar.",
         "applicationCategory": "UtilityApplication",
         "operatingSystem": "macOS 13.0",
-        "softwareVersion": "0.1.0",
+        "softwareVersion": "0.2.0",
         "url": "https://newfile.dev/",
         "image": "https://newfile.dev/assets/og.png",
         "downloadUrl": "https://github.com/mariusgm/newfile/releases/latest/download/NewFile.dmg",
@@ -110,15 +110,11 @@
     </section>
 
     <section class="install">
-      <div class="install-card">
-        <code id="brew-cmd">brew install --cask newfile</code>
-        <button type="button" class="copy-btn" data-target="brew-cmd" aria-label="Copy install command">Copy</button>
-      </div>
       <a class="install-card install-dmg" href="https://github.com/mariusgm/newfile/releases/latest/download/NewFile.dmg">
         Download NewFile.dmg
         <span class="install-arrow" aria-hidden="true">↓</span>
       </a>
-      <p class="install-caveat">macOS 13 or later, universal binary.</p>
+      <p class="install-caveat">macOS 13 or later, universal binary. Homebrew cask coming soon.</p>
     </section>
 
     <section class="demo">
@@ -131,6 +127,16 @@
         <li><span class="feature-dot" aria-hidden="true"></span>Toolbar button: drag it once, use it forever.</li>
         <li><span class="feature-dot" aria-hidden="true"></span>Auto-incrementing names, reveals the new file selected.</li>
       </ul>
+    </section>
+
+    <section class="whats-new">
+      <h2>New in v0.2.0</h2>
+      <ul class="feature-list">
+        <li><span class="feature-dot" aria-hidden="true"></span><strong>Customizable file types</strong> — pick from 8 built-in presets (`.md`, `.json`, `.sh`, `.env`, &hellip;) or add your own.</li>
+        <li><span class="feature-dot" aria-hidden="true"></span><strong>Per-type starter templates</strong> — pre-fill new files with frontmatter, shebang lines, or a JSON skeleton.</li>
+        <li><span class="feature-dot" aria-hidden="true"></span><strong>Drag-to-reorder</strong> and a <strong>submenu mode</strong> that collapses everything under a single &ldquo;New File&rdquo; entry.</li>
+      </ul>
+      <p class="whats-new-link"><a href="https://github.com/mariusgm/newfile/releases/tag/v0.2.0">Full release notes &rarr;</a></p>
     </section>
 
     <section class="faq">
@@ -167,29 +173,11 @@
     </section>
   </main>
   <footer class="site-footer">
-    <a href="https://github.com/mariusgm/newfile/releases/tag/v0.1.0">v0.1.0</a>
+    <a href="https://github.com/mariusgm/newfile/releases/tag/v0.2.0">v0.2.0</a>
     <span aria-hidden="true">·</span>
     <a href="https://github.com/mariusgm/newfile">GitHub</a>
     <span aria-hidden="true">·</span>
     <a href="https://github.com/mariusgm/newfile/releases">Releases</a>
   </footer>
-  <script>
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const target = document.getElementById(btn.dataset.target);
-        if (!target) return;
-        try {
-          await navigator.clipboard.writeText(target.textContent.trim());
-          const original = btn.textContent;
-          btn.textContent = 'Copied';
-          btn.classList.add('copied');
-          setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1400);
-        } catch (e) {
-          btn.textContent = 'Press ⌘C';
-          setTimeout(() => { btn.textContent = 'Copy'; }, 1400);
-        }
-      });
-    });
-  </script>
 </body>
 </html>

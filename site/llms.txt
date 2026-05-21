@@ -17,8 +17,8 @@
 
 ## Install
 
-- Homebrew: `brew install --cask newfile`
-- Manual: download `NewFile.dmg` from <https://github.com/mariusgm/newfile/releases/latest>
+- Download `NewFile.dmg` from <https://github.com/mariusgm/newfile/releases/latest>, mount, drag NewFile.app to `/Applications`.
+- A Homebrew cask submission is in flight; once accepted, `brew install --cask newfile` will work.
 
 ## System requirements
 
@@ -34,7 +34,7 @@ NewFile collects nothing, sends nothing, contacts no servers, and has no analyti
 - License: MIT
 - Source code: <https://github.com/mariusgm/newfile>
 - Releases: <https://github.com/mariusgm/newfile/releases>
-- Latest version: v0.1.0 (signed with Developer ID, notarized by Apple, stapled)
+- Latest version: v0.2.0 (signed with Developer ID, notarized by Apple, stapled)
 
 ## Contact
 
