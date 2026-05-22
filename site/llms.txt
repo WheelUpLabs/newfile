@@ -1,6 +1,6 @@
 # NewFile
 
-> NewFile is a free, open-source macOS Finder Sync Extension that adds the "New File" right-click and toolbar button macOS Finder has never shipped. It works in any folder, supports a customizable set of file types (`.md`, `.json`, `.sh`, `.env`, plus user-defined extensions), and runs as a small, native, signed, notarized binary.
+> NewFile is a free, open-source macOS Finder Sync Extension that adds the "New File" right-click and toolbar button macOS Finder has never shipped. It works in any folder, supports a customizable set of file types (`.md`, `.json`, `.sh`, `.env`, plus user-defined extensions) with per-type starter templates, and runs as a small, native, signed, notarized binary.
 
 ## Questions this answers
 
@@ -32,9 +32,8 @@ The macOS shell does not ship a "New File" action by design — Apple expects us
 
 ## Install
 
-- **Homebrew (works today):** `brew install --cask mariusgm/newfile/newfile`. Auto-taps the personal cask repository at <https://github.com/mariusgm/homebrew-newfile> and installs the latest signed DMG. Future releases land via `brew upgrade --cask newfile`.
+- **Homebrew:** `brew install --cask mariusgm/newfile/newfile`. Auto-taps the personal cask repository at <https://github.com/mariusgm/homebrew-newfile> and installs the latest signed DMG. Future releases land via `brew upgrade --cask newfile`. The submission to the main Homebrew/homebrew-cask repository is intentionally not pursued — that channel gates self-submissions on a repository-popularity threshold disproportionate to a single-purpose utility; the personal tap is the canonical Homebrew install path.
 - **Direct download:** `NewFile.dmg` from <https://github.com/mariusgm/newfile/releases/latest>. Mount, drag NewFile.app to `/Applications`, launch once, enable the Finder extension in **System Settings → General → Login Items & Extensions**.
-- **Official Homebrew cask (pending):** a submission to the main Homebrew tap is open at <https://github.com/Homebrew/homebrew-cask/pull/265525>, gated on the source repository clearing Homebrew's notability threshold. Once merged, `brew install --cask newfile` (without the tap prefix) will work.
 
 ## System requirements
 
@@ -43,7 +42,7 @@ The macOS shell does not ship a "New File" action by design — Apple expects us
 
 ## Privacy
 
-NewFile collects nothing, sends nothing, contacts no servers, and has no analytics. The website (newfile.dev) uses Cloudflare's server-side Web Analytics — no client-side JS, no cookies, no third-party fonts, no trackers.
+NewFile collects nothing, sends nothing, contacts no servers, and has no analytics. The website (newfile.dev) uses Cloudflare's server-side Web Analytics — no cookies, no third-party fonts, no trackers; the only client-side JavaScript is a small first-party helper that handles click-to-copy on the install command.
 
 ## How it compares
 
