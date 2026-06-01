@@ -1,17 +1,15 @@
 # NewFile — New File button for macOS Finder
 
-**Free, open-source, native.** Adds a "New Text File" button to the macOS Finder toolbar and right-click menu. Click it in any Finder window to instantly create `New Text File.txt` in that folder, with auto-incrementing names. Reveals and selects the new file.
+**Free, open-source, native.** A small [Finder Sync Extension](https://developer.apple.com/documentation/findersync/fifindersync) that adds the missing "New File" button to macOS Finder — right-click menu and toolbar. No Automator, no shell scripts, no setup beyond enabling the extension once.
+
+- **Any file type** — `.txt` enabled by default, plus 7 built-in presets (`.md`, `.json`, `.sh`, `.env`, `.yml`, `.gitignore`, `.html`). Add your own (`.tsx`, `.toml`, whatever you need).
+- **Starter templates** — pre-fill new files with frontmatter, shebang lines, a JSON skeleton, or any boilerplate you reuse.
+- **Drag-to-reorder** — set the menu order in Preferences; the first enabled type is the toolbar's one-click action.
+- **Submenu mode** — optionally collapse all types under a single "New File ▸" right-click entry.
+- **Auto-incrementing names** — `New Text File.txt`, then `New Text File 2.txt`, and so on. Reveals and selects the new file.
+- **Auto-updates** via Sparkle — no need to re-download.
 
 > macOS Finder lets you create a New Folder but not a New File. NewFile fixes that — the way it should have shipped.
-
-## Why
-
-For 15+ years macOS users have asked for a built-in "right-click → New File" or "New Text File" toolbar button in Finder. Windows and most Linux file managers have it; macOS doesn't. NewFile is a small, native [Finder Sync Extension](https://developer.apple.com/documentation/findersync/fifindersync) that adds the missing button — no Automator, no shell scripts, no setup beyond enabling the extension once.
-
-Useful when you're:
-- setting up LLM / dev infrastructure and constantly creating tiny config / prompt / scratch files
-- coming from Windows or Linux and missing the right-click → New File workflow
-- annoyed at having to open TextEdit just to make an empty `.txt`
 
 ## Install
 
@@ -46,14 +44,7 @@ The created file is named `New Text File.txt`. If that name exists, it becomes `
 
 ## Customize
 
-Open **NewFile.app → ⌘,** (or click the toolbar dropdown → **Customize…**) to:
-
-- Enable additional file types — `.md`, `.env`, `.json`, `.yml`, `.sh`, `.gitignore`, `.html` ship as built-in presets, all disabled by default except `.txt`.
-- Add your own types (e.g. `.tsx`, `.toml`). Lowercase letters, digits, `.`, `_`, `-` only.
-- Edit the default base name per type. Leave it empty for dotfile-style names (e.g. `.env`, `.gitignore`).
-- Set a starter **template** — plain text saved as the new file's content.
-- Reorder. The order in Preferences is the order in the right-click and toolbar menus. The first enabled type is the toolbar's fast-path action.
-- Optional: switch the right-click menu to a **"New File ▸"** submenu instead of inline rows.
+Open **NewFile.app → ⌘,** (or click the toolbar dropdown → **Customize…**) to manage file types, templates, menu order, and submenu mode. Leave a base name empty for dotfile-style names (`.env`, `.gitignore`).
 
 ## Build from source
 
@@ -89,16 +80,6 @@ When you click the toolbar button or context menu item:
 2. It picks a unique filename (`New Text File.txt`, then `New Text File 2.txt`, etc.).
 3. It creates an empty file with `FileManager.createFile`.
 4. It calls `NSWorkspace.activateFileViewerSelecting` to reveal and select the file.
-
-## Roadmap
-
-- [x] Toolbar button
-- [x] Right-click context menu
-- [x] Auto-incrementing filename
-- [x] Reveal + select after creation
-- [x] Custom filename templates (.md, .py, .json, .swift, etc.)
-- [x] Configurable default extension
-- [x] Customizable base name
 
 ## License
 
