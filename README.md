@@ -15,10 +15,10 @@ Useful when you're:
 
 ## Install
 
-### Homebrew (recommended, when available)
+### Homebrew (recommended)
 
 ```sh
-brew install --cask newfile
+brew install mariusgm/newfile/newfile
 ```
 
 ### Manual
@@ -96,9 +96,9 @@ When you click the toolbar button or context menu item:
 - [x] Right-click context menu
 - [x] Auto-incrementing filename
 - [x] Reveal + select after creation
-- [ ] Custom filename templates (.md, .py, .json, .swift, etc.)
-- [ ] Configurable default extension
-- [ ] Customizable base name
+- [x] Custom filename templates (.md, .py, .json, .swift, etc.)
+- [x] Configurable default extension
+- [x] Customizable base name
 
 ## License
 
