@@ -108,79 +108,66 @@ a:hover { text-decoration-color: var(--accent); }
 }
 
 /* ---------- install ---------- */
-.install { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 60px; max-width: 360px; margin-left: auto; margin-right: auto; }
-.install-caveat { text-align: center; font-size: 13px; color: var(--text-dim); margin: 8px 0 0; }
+.install { margin-bottom: 60px; max-width: 420px; margin-left: auto; margin-right: auto; }
+.install-caveat { text-align: center; font-size: 13px; color: var(--text-dim); margin: 12px 0 0; }
+
+.install-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
 
 .install-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 18px 20px;
+  padding: 16px 20px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.install-dmg {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-}
-.install-dmg:hover { text-decoration: underline; text-decoration-color: var(--accent); }
-.install-arrow { margin-left: 6px; }
-
-.install-brew-hint {
-  text-align: center;
-  font-size: 13px;
-  color: var(--text-dim);
-  margin: 4px 0 0;
-  line-height: 1.8;
-}
-.install-brew-copy {
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border: 0;
-  font: inherit;
-  color: inherit;
+  flex-direction: column;
+  gap: 6px;
   cursor: pointer;
+  transition: border-color 0.15s;
 }
-.install-brew-copy .install-brew-cmd,
-.install-brew-copy .install-brew-copied {
-  display: inline-block;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12px;
+.install-card:hover { border-color: var(--accent); }
+
+.install-label {
+  font-weight: 500;
+  font-size: 15px;
   color: var(--text);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 2px 8px;
-  white-space: nowrap;
-  max-width: 100%;
-  vertical-align: middle;
-  transition: border-color 0.15s ease, color 0.15s ease;
 }
-.install-brew-copy:hover .install-brew-cmd,
-.install-brew-copy:focus-visible .install-brew-cmd {
+
+.install-brew {
   border-color: var(--accent);
-  color: var(--accent);
-  outline: none;
+  position: relative;
 }
-.install-brew-copy .install-brew-copied {
+.install-brew .install-brew-cmd {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  color: var(--accent);
+}
+.install-brew .install-brew-copied {
   position: absolute;
   inset: 0;
   display: none;
+  align-items: center;
+  justify-content: center;
   color: var(--accent);
-  border-color: var(--accent);
-  text-align: center;
+  font-weight: 500;
+  font-size: 15px;
+  background: var(--surface);
+  border-radius: 9px;
 }
-.install-brew-copy.is-copied .install-brew-cmd { visibility: hidden; }
-.install-brew-copy.is-copied .install-brew-copied { display: inline-block; }
+.install-brew.is-copied .install-brew-cmd { visibility: hidden; }
+.install-brew.is-copied .install-label { visibility: hidden; }
+.install-brew.is-copied .install-brew-copied { display: flex; }
+
+.install-dmg {
+  text-decoration: none;
+}
+.install-detail {
+  font-size: 13px;
+  color: var(--text-dim);
+}
 
 
 /* ---------- demo ---------- */
@@ -191,6 +178,27 @@ a:hover { text-decoration-color: var(--accent); }
   border: 1px solid rgba(250, 247, 242, 0.06);
   border-radius: 8px;
   display: block;
+}
+
+/* ---------- why ---------- */
+.why h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+.why p {
+  font-size: 15px;
+  color: var(--text-mute);
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+.why p:last-child { margin-bottom: 0; }
+.why code {
+  font-size: 13px;
+  background: var(--surface);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--text);
 }
 
 /* ---------- features ---------- */
