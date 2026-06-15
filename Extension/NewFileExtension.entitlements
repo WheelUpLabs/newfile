@@ -15,9 +15,12 @@
         <string>/Volumes/</string>
         <string>/private/tmp/</string>
     </array>
+    <!-- macOS app-group containers MUST be prefixed with the Team ID, or
+         containermanagerd treats the container as TCC-protected and REJECTS
+         the extension's access (empty settings -> no menu). Team ID: Q7VD7MTRL8. -->
     <key>com.apple.security.application-groups</key>
     <array>
-        <string>group.dev.newfile.NewFile</string>
+        <string>Q7VD7MTRL8.dev.newfile.NewFile</string>
     </array>
 </dict>
 </plist>

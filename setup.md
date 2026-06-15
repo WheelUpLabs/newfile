@@ -110,9 +110,17 @@ Upload `build/NewFile.dmg` to a GitHub Release.
 
 ### App Group provisioning
 
-Both the host app (`dev.newfile.NewFile`) and the extension (`dev.newfile.NewFile.NewFileExtension`) must include the App Group `group.dev.newfile.NewFile` in their provisioning profiles. With `CODE_SIGN_STYLE: Automatic` (Debug) Xcode handles this. For Release / Developer ID distribution:
+Both the host app (`dev.newfile.NewFile`) and the extension (`dev.newfile.NewFile.NewFileExtension`) must include the App Group `Q7VD7MTRL8.dev.newfile.NewFile` in their provisioning profiles.
 
-1. In the Apple Developer portal, create the App Group `group.dev.newfile.NewFile` once.
+> **The App Group MUST be Team-ID-prefixed** (`Q7VD7MTRL8.<…>`). macOS treats a non-prefixed,
+> iOS-style `group.<…>` id as a TCC-protected container: the host app gets an "access data from
+> other apps" prompt and the Finder extension is hard-REJECTED (empty menu). This was the v0.2.1 fix —
+> do not revert the prefix. (verified: `containermanagerd … APPROVED`.)
+
+With `CODE_SIGN_STYLE: Automatic` Xcode handles registration. For Release / Developer ID, pass
+`-allowProvisioningUpdates` to `xcodebuild … archive` and the group auto-registers. If it errors:
+
+1. In the Apple Developer portal, create the App Group `Q7VD7MTRL8.dev.newfile.NewFile` once.
 2. Add it to both bundle IDs.
 3. Regenerate the provisioning profiles and download.
 4. The entitlements files in this repo (`App/NewFile.entitlements`, `Extension/NewFileExtension.entitlements`) already declare the group; verify after `xcodegen generate`.

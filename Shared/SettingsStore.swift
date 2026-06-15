@@ -1,7 +1,10 @@
 import Foundation
 
 final class SettingsStore {
-    static let appGroupID = "group.dev.newfile.NewFile"
+    // macOS requires app-group IDs to be Team-ID-prefixed; an iOS-style
+    // "group." identifier makes containermanagerd gate the shared container
+    // behind TCC (host-app prompt + extension rejection). Team ID: Q7VD7MTRL8.
+    static let appGroupID = "Q7VD7MTRL8.dev.newfile.NewFile"
 
     private enum Key {
         static let fileTypes = "fileTypes"
