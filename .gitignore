@@ -39,3 +39,7 @@ NOTES.local.md
 site/assets/*.mov
 site/assets/*.tmp
 site/.demo-notes.md
+
+# Local build / wrangler caches
+.build-cli/
+.wrangler/
