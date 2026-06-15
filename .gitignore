@@ -20,8 +20,7 @@ Package.resolved
 *.dmg
 *.zip
 NewFile.app
-release/build/
-release/export/
+release/
 
 # Editors
 .vscode/
@@ -34,11 +33,6 @@ NOTES.local.md
 .env
 .env.*
 !.env.example
-
-# Site source recordings (kept locally for re-export, not committed)
-site/assets/*.mov
-site/assets/*.tmp
-site/.demo-notes.md
 
 # Local build / wrangler caches
 .build-cli/
