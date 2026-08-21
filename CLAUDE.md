@@ -32,7 +32,12 @@ Version lives in `project.yml` (`MARKETING_VERSION` / `CURRENT_PROJECT_VERSION`)
 
 ## Distribution
 
-Single Homebrew channel: the tap `mariusgm/newfile`. Do not add a second channel (Mac App Store, Setapp, direct-only) without a dated decision — one channel is deliberate.
+Primary: GitHub DMG + Homebrew tap `mariusgm/newfile` (free, open source).
+
+### Roadmap
+
+- **Official Homebrew cask** — submit to `homebrew/homebrew-cask` when GitHub stars + downloads make notability clear. Not yet (23 stars / ~1k downloads as of 2026-08-20).
+- **Mac App Store edition ($2.99)** — same core app, no artificial limitations in the free build. Positioning: "NewFile remains free from GitHub. Buying the App Store edition supports continued development and provides App Store installation and updates." Decided 2026-08-20. Blocker: verify FinderSync extension write entitlements work under full App Sandbox (competitors like NewFileMenu ship on MAS, so likely feasible).
 
 ## Design
 
