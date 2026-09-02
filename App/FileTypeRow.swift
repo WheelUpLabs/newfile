@@ -24,7 +24,9 @@ struct FileTypeRow: View {
             Toggle("", isOn: $entry.enabled)
                 .labelsHidden()
                 .frame(width: Self.toggleColumnWidth)
-                .help("Show in the Finder menu")
+                .disabled(!extIsValid)
+                .help(extIsValid ? "Show in the Finder menu"
+                                 : "Enter a valid extension first")
 
             extensionField
                 .frame(width: 110, alignment: .leading)
@@ -77,13 +79,17 @@ struct FileTypeRow: View {
         }
     }
 
+    private var extIsValid: Bool {
+        entry.isBuiltIn || (try? FileTypeEntry.validateExtension(entry.ext)) != nil
+    }
+
     private var templateButton: some View {
         Button(entry.template.isEmpty ? "Add…" : "Edit…") {
             showTemplateEditor = true
         }
-        .buttonStyle(.borderless)
+        .buttonStyle(.bordered)
         .controlSize(.small)
-        .foregroundStyle(entry.template.isEmpty ? Color.secondary : Color.accentColor)
+        .tint(entry.template.isEmpty ? nil : Color.accentColor)
         .help(entry.template.isEmpty ? "Add starter template" : "Edit starter template")
     }
 

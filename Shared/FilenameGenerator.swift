@@ -11,7 +11,15 @@ enum FilenameGenerator {
         ext: String,
         fileExists: (URL) -> Bool = { FileManager.default.fileExists(atPath: $0.path) }
     ) -> URL {
-        let isDotfile = baseName.isEmpty
+        // Users sometimes type the full filename ("data.json", ".env") into the
+        // base-name field; strip one redundant ".<ext>" suffix so the result
+        // never doubles the extension (.env.env, data.json.json).
+        var base = baseName
+        let redundantSuffix = ".\(ext)"
+        if base.lowercased().hasSuffix(redundantSuffix.lowercased()) {
+            base = String(base.dropLast(redundantSuffix.count))
+        }
+        let isDotfile = base.isEmpty
 
         func candidate(_ i: Int) -> URL {
             if isDotfile {
@@ -20,8 +28,8 @@ enum FilenameGenerator {
                     : directory.appendingPathComponent(".\(ext) \(i)")
             } else {
                 return i == 1
-                    ? directory.appendingPathComponent("\(baseName).\(ext)")
-                    : directory.appendingPathComponent("\(baseName) \(i).\(ext)")
+                    ? directory.appendingPathComponent("\(base).\(ext)")
+                    : directory.appendingPathComponent("\(base) \(i).\(ext)")
             }
         }
 

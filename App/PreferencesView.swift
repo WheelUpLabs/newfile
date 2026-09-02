@@ -76,7 +76,7 @@ struct PreferencesView: View {
                 VStack(spacing: 0) {
                     ForEach($vm.fileTypes) { $entry in
                         if !entry.isBuiltIn && isFirstCustom(entry, in: vm.fileTypes) {
-                            sectionHeader("Custom types")
+                            sectionHeader("Custom Types")
                         }
                         FileTypeRow(
                             entry: $entry,
@@ -123,17 +123,17 @@ struct PreferencesView: View {
     /// so the captions line up; "enabled" spans the handle + toggle columns.
     private var columnHeaders: some View {
         HStack(spacing: 8) {
-            Text("enabled")
+            Text("Enabled")
                 .frame(width: FileTypeRow.handleColumnWidth + 8 + FileTypeRow.toggleColumnWidth,
-                       alignment: .leading)
+                       alignment: .trailing)
                 .help("Checked types appear in the Finder menu")
-            Text("extension")
+            Text("Extension")
                 .frame(width: 110, alignment: .leading)
-            Text("menu label")
+            Text("Menu Label")
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Text("default filename")
+            Text("Default Filename")
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Text("template")
+            Text("Template")
                 .frame(width: FileTypeRow.templateColumnWidth)
             Color.clear.frame(width: FileTypeRow.deleteColumnWidth + 4, height: 1)
         }

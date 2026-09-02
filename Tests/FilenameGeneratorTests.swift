@@ -59,4 +59,34 @@ final class FilenameGeneratorTests: XCTestCase {
         )
         XCTAssertEqual(url.lastPathComponent, ".gitignore")
     }
+
+    // MARK: - Redundant-extension guard (.env.env / data.json.json)
+
+    func testBaseNameEqualToDotExt_becomesDotfile() {
+        let url = FilenameGenerator.uniqueFileURL(
+            in: URL(fileURLWithPath: "/tmp"), baseName: ".env", ext: "env",
+            fileExists: { _ in false })
+        XCTAssertEqual(url.lastPathComponent, ".env")
+    }
+
+    func testBaseNameWithFullFilename_stripsDuplicateExtension() {
+        let url = FilenameGenerator.uniqueFileURL(
+            in: URL(fileURLWithPath: "/tmp"), baseName: "data.json", ext: "json",
+            fileExists: { _ in false })
+        XCTAssertEqual(url.lastPathComponent, "data.json")
+    }
+
+    func testBaseNameSuffixStrip_isCaseInsensitive() {
+        let url = FilenameGenerator.uniqueFileURL(
+            in: URL(fileURLWithPath: "/tmp"), baseName: "Data.JSON", ext: "json",
+            fileExists: { _ in false })
+        XCTAssertEqual(url.lastPathComponent, "Data.json")
+    }
+
+    func testNormalBaseName_unchangedByGuard() {
+        let url = FilenameGenerator.uniqueFileURL(
+            in: URL(fileURLWithPath: "/tmp"), baseName: "config", ext: "yml",
+            fileExists: { _ in false })
+        XCTAssertEqual(url.lastPathComponent, "config.yml")
+    }
 }
