@@ -34,9 +34,13 @@ Version lives in `project.yml` (`MARKETING_VERSION` / `CURRENT_PROJECT_VERSION`)
 
 Primary: GitHub DMG + Homebrew tap `mariusgm/newfile` (free, open source).
 
-### Roadmap
+## Roadmap
 
-- **Official Homebrew cask** — submit to `homebrew/homebrew-cask` when GitHub stars + downloads make notability clear. Not yet (23 stars / ~1k downloads as of 2026-08-20).
+- **Menu labels for custom + renamed types (issue #2)** — DECIDED 2026-09-02, option 2 of 3. Three reporters, one root cause: `displayName` is write-once and unreachable from the UI, while the menu renders only it (`Extension/FinderSync.swift:129`). `App/PreferencesView.swift:31` hardcodes `displayName: "New file"` for every custom type, and `FileTypeRow` exposes only `enabled` / `ext` / `baseName` / `template` — so custom types are permanently "New file", and editing a built-in's base name changes the created filename but never the menu label.
+  **Fix:** expose `displayName` as an editable field in `FileTypeRow`, and default new custom types to a derived label instead of the hardcoded string. Rejected: deriving the label from `baseName`+`ext` and dropping the field (would rewrite built-in labels shipped since v0.1.0 — `.md` is labeled "New Markdown" but creates `Untitled.md`; `.env` is labeled "New .env" and creates `.env`); and deriving only for custom types (leaves the built-in-rename report unfixed).
+  **Satisfies all three reporters:** [cat11meow](https://github.com/mariusgm/newfile/issues/2) (opener), [luiscruvinel](https://github.com/mariusgm/newfile/issues/2#issuecomment-5025920961), [Ballou](https://github.com/mariusgm/newfile/issues/2#issuecomment-5313785845) — the last is the built-in-rename case, not Tahoe-specific.
+  **Test gap to close with it:** nothing covers the settings→menu-label binding; `Tests/PlumbingTests.swift` is an `XCTAssertTrue(true)` stub and the 26 existing tests all sit below the extension. PR #1's test-plan line "Edit base name + template, OK/Cancel sheet round-trip" passed because it was checked against Preferences, which is exactly where the change *does* appear.
+- **Official Homebrew cask** — submit to `homebrew/homebrew-cask` when GitHub stars + downloads make notability clear. Not yet (30 stars / 1,259 DMG as of 2026-09-02).
 - **Mac App Store edition ($2.99)** — same core app, no artificial limitations in the free build. Positioning: "NewFile remains free from GitHub. Buying the App Store edition supports continued development and provides App Store installation and updates." Decided 2026-08-20. Blocker: verify FinderSync extension write entitlements work under full App Sandbox (competitors like NewFileMenu ship on MAS, so likely feasible).
 
 ## Design
