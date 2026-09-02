@@ -12,6 +12,14 @@
          containermanagerd treats the container as TCC-protected and gates
          cross-process access (host app gets the "access data from other apps"
          prompt; the Finder extension gets hard-REJECTED). Team ID: Q7VD7MTRL8. -->
+    <!-- Sparkle 2 under App Sandbox: the host must be able to look up the
+         installer's mach services (<bundle-id>-spks / -spki), or updates fail
+         with "installation data was never received". Sparkle sandboxing doc. -->
+    <key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
+    <array>
+        <string>dev.newfile.NewFile-spks</string>
+        <string>dev.newfile.NewFile-spki</string>
+    </array>
     <key>com.apple.security.application-groups</key>
     <array>
         <string>Q7VD7MTRL8.dev.newfile.NewFile</string>
