@@ -24,6 +24,12 @@ xcrun xcodebuild -scheme NewFile -configuration Release
 
 Version lives in `project.yml` (`MARKETING_VERSION` / `CURRENT_PROJECT_VERSION`), currently 0.2.2 / 4, Swift 5.10. Latest tag is `v0.2.2`. `release/` carries the archive, DMG, `ExportOptions.plist`, `resume-notarization.sh` and a per-version runbook — read the runbook before cutting a release.
 
+## Release mechanics (verified 2026-09-02, v0.2.2)
+
+- Notary keychain profile: `newfile-notary`. Sparkle EdDSA key: keychain service `https://sparkle-project.org`, so `sign_update --account newfile` (default account fails).
+- **Codesign the DMG before notarizing** (`codesign -s "Developer ID Application: …" --timestamp NewFile.dmg`), then submit → staple → `spctl -a -t install` = accepted. v0.2.1 and earlier shipped UNSIGNED DMGs (spctl rejected; worked only via the stapled ticket) — v0.2.2 is the first to pass Gatekeeper assessment.
+- sign_update lives under DerivedData `SourcePackages/artifacts/sparkle/Sparkle/bin/` — deleting DerivedData removes it until the next build.
+
 ## Known traps
 
 - **App Group IDs need the Team-ID prefix.** Omitting it makes macOS re-prompt for permissions on every launch. This was the fix that shipped in v0.2.1 — do not regress it.
