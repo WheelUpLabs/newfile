@@ -55,6 +55,8 @@ struct PreferencesView: View {
                 Button("+ Add type…") { vm.addCustomType() }
             }
 
+            columnHeaders
+
             List {
                 ForEach($vm.fileTypes) { $entry in
                     if !entry.isBuiltIn && isFirstCustom(entry, in: vm.fileTypes) {
@@ -69,6 +71,7 @@ struct PreferencesView: View {
                             vm.persist()
                         }
                     }
+                    .listRowInsets(EdgeInsets())
                 }
                 .onMove { source, dest in vm.move(from: source, to: dest) }
             }
@@ -91,6 +94,29 @@ struct PreferencesView: View {
         }
         .padding(20)
         .frame(minWidth: 520, minHeight: 560)
+    }
+
+    /// Column captions for the row fields. Mirrors FileTypeRow's layout with
+    /// hidden copies of its fixed-size controls so the captions line up.
+    private var columnHeaders: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "line.3.horizontal").hidden()
+            Toggle("", isOn: .constant(true)).labelsHidden().hidden()
+            Text("extension")
+                .frame(width: 110, alignment: .leading)
+            Text("menu label")
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text("base file name")
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Button("Template…") {}
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .hidden()
+            Color.clear.frame(width: 16, height: 16)
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
+        .padding(.bottom, -6)
     }
 
     private func isFirstCustom(_ entry: FileTypeEntry, in list: [FileTypeEntry]) -> Bool {
