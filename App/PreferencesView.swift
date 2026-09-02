@@ -1,5 +1,6 @@
 import Combine
 import SwiftUI
+import UniformTypeIdentifiers
 
 @MainActor
 final class PreferencesViewModel: ObservableObject {
@@ -52,48 +53,48 @@ final class PreferencesViewModel: ObservableObject {
         )
         fileTypes.append(new)
     }
-
-    func move(from source: IndexSet, to destination: Int) {
-        fileTypes.move(fromOffsets: source, toOffset: destination)
-        persist()
-    }
 }
 
 struct PreferencesView: View {
     @StateObject private var vm = PreferencesViewModel()
     @Environment(\.dismiss) private var dismiss
-
-    private let rowInsets = EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+    @State private var draggingID: UUID?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("File types").font(.headline)
+                Text("File Types").font(.headline)
                 Spacer()
-                Button("+ Add type…") { vm.addCustomType() }
+                Button("+ Add Type…") { vm.addCustomType() }
             }
 
             columnHeaders
 
-            List {
-                ForEach($vm.fileTypes) { $entry in
-                    if !entry.isBuiltIn && isFirstCustom(entry, in: vm.fileTypes) {
-                        sectionHeader("Custom types")
+            // Plain ScrollView, not List: the NSTableView row machinery behind
+            // List added first-click latency on the row text fields.
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach($vm.fileTypes) { $entry in
+                        if !entry.isBuiltIn && isFirstCustom(entry, in: vm.fileTypes) {
+                            sectionHeader("Custom types")
+                        }
+                        FileTypeRow(
+                            entry: $entry,
+                            onDelete: entry.isBuiltIn ? nil : { vm.delete(entry) },
+                            onReorderDrag: {
+                                draggingID = entry.id
+                                return NSItemProvider(object: entry.id.uuidString as NSString)
+                            }
+                        )
+                        .padding(.horizontal, 8)
+                        .onDrop(of: [.text],
+                                delegate: RowReorderDelegate(item: entry,
+                                                             list: $vm.fileTypes,
+                                                             draggingID: $draggingID))
                     }
-                    FileTypeRow(
-                        entry: $entry,
-                        onDelete: entry.isBuiltIn ? nil : { vm.delete(entry) }
-                    )
-                    .listRowInsets(rowInsets)
                 }
-                .onMove { source, dest in vm.move(from: source, to: dest) }
-
-                // Breathing room after the last row inside the scroll area.
-                Color.clear
-                    .frame(height: 8)
-                    .listRowInsets(EdgeInsets())
+                .padding(.vertical, 8)
             }
-            .listStyle(.plain)
             .frame(minHeight: 320, maxHeight: .infinity)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
@@ -118,16 +119,14 @@ struct PreferencesView: View {
         .frame(minWidth: 660, minHeight: 560)
     }
 
-    /// Column captions for the row fields. Mirrors FileTypeRow's layout with
-    /// hidden copies of its fixed-size controls so the captions line up.
+    /// Column captions for the row fields. Mirrors FileTypeRow's fixed widths
+    /// so the captions line up; "enabled" spans the handle + toggle columns.
     private var columnHeaders: some View {
         HStack(spacing: 8) {
-            Image(systemName: "line.3.horizontal").hidden()
-            Toggle("", isOn: .constant(true)).labelsHidden().hidden()
-                .overlay(
-                    Image(systemName: "checkmark")
-                        .help("Checked types appear in the Finder menu")
-                )
+            Text("enabled")
+                .frame(width: FileTypeRow.handleColumnWidth + 8 + FileTypeRow.toggleColumnWidth,
+                       alignment: .leading)
+                .help("Checked types appear in the Finder menu")
             Text("extension")
                 .frame(width: 110, alignment: .leading)
             Text("menu label")
@@ -136,9 +135,9 @@ struct PreferencesView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             Text("template")
                 .frame(width: FileTypeRow.templateColumnWidth)
-            Color.clear.frame(width: FileTypeRow.deleteColumnWidth, height: 1)
+            Color.clear.frame(width: FileTypeRow.deleteColumnWidth + 4, height: 1)
         }
-        .font(.caption)
+        .font(.caption.weight(.medium))
         .foregroundStyle(.secondary)
         .padding(.horizontal, 8)
         .padding(.bottom, -6)
@@ -153,9 +152,38 @@ struct PreferencesView: View {
         Text(title)
             .font(.caption.weight(.semibold))
             .foregroundStyle(.secondary)
-            .padding(.top, 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 14)
             .padding(.bottom, 2)
-            .listRowInsets(rowInsets)
+            .padding(.horizontal, 8)
+    }
+}
+
+/// Moves the dragged row as the cursor passes over other rows; the drop
+/// itself just clears the drag state.
+private struct RowReorderDelegate: DropDelegate {
+    let item: FileTypeEntry
+    @Binding var list: [FileTypeEntry]
+    @Binding var draggingID: UUID?
+
+    func dropEntered(info: DropInfo) {
+        guard let draggingID, draggingID != item.id,
+              let from = list.firstIndex(where: { $0.id == draggingID }),
+              let to = list.firstIndex(where: { $0.id == item.id })
+        else { return }
+        withAnimation {
+            list.move(fromOffsets: IndexSet(integer: from),
+                      toOffset: to > from ? to + 1 : to)
+        }
+    }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        DropProposal(operation: .move)
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        draggingID = nil
+        return true
     }
 }
 

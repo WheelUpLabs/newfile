@@ -3,19 +3,27 @@ import SwiftUI
 struct FileTypeRow: View {
     @Binding var entry: FileTypeEntry
     let onDelete: (() -> Void)?
+    /// Supplied by the container; attaches drag-reorder to the handle only,
+    /// so drags inside text fields never start a row move.
+    let onReorderDrag: (() -> NSItemProvider)?
+
     @State private var showTemplateEditor = false
     @State private var extError: String? = nil
+    @FocusState private var extFocused: Bool
 
+    static let handleColumnWidth: CGFloat = 20
+    static let toggleColumnWidth: CGFloat = 20
     static let templateColumnWidth: CGFloat = 56
     static let deleteColumnWidth: CGFloat = 24
 
     var body: some View {
         HStack(spacing: 8) {
-            Image(systemName: "line.3.horizontal")
-                .foregroundStyle(.tertiary)
+            dragHandle
+                .frame(width: Self.handleColumnWidth)
 
             Toggle("", isOn: $entry.enabled)
                 .labelsHidden()
+                .frame(width: Self.toggleColumnWidth)
                 .help("Show in the Finder menu")
 
             extensionField
@@ -43,22 +51,40 @@ struct FileTypeRow: View {
                 .frame(width: Self.templateColumnWidth)
 
             deleteColumn
+                .padding(.leading, 4)
         }
         .padding(.vertical, 4)
         .sheet(isPresented: $showTemplateEditor) {
             TemplateEditorSheet(extLabel: entry.ext, template: $entry.template)
         }
+        .onAppear {
+            // A just-added custom row (no extension yet) is ready to type into.
+            if !entry.isBuiltIn && entry.ext.isEmpty {
+                extFocused = true
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var dragHandle: some View {
+        let handle = Image(systemName: "line.3.horizontal")
+            .foregroundStyle(.tertiary)
+            .help("Drag to reorder")
+        if let onReorderDrag {
+            handle.onDrag(onReorderDrag)
+        } else {
+            handle
+        }
     }
 
     private var templateButton: some View {
-        Button { showTemplateEditor = true } label: {
-            Image(systemName: entry.template.isEmpty ? "doc" : "doc.text.fill")
-                .foregroundStyle(entry.template.isEmpty ? Color.secondary : Color.accentColor)
+        Button(entry.template.isEmpty ? "Add…" : "Edit…") {
+            showTemplateEditor = true
         }
         .buttonStyle(.borderless)
-        .help(entry.template.isEmpty
-              ? "No template — new files start empty. Click to add one."
-              : "Template configured — click to edit.")
+        .controlSize(.small)
+        .foregroundStyle(entry.template.isEmpty ? Color.secondary : Color.accentColor)
+        .help(entry.template.isEmpty ? "Add starter template" : "Edit starter template")
     }
 
     @ViewBuilder
@@ -84,30 +110,25 @@ struct FileTypeRow: View {
                 Text(entry.ext)
             }
             .font(.system(.body, design: .monospaced))
-            .padding(.horizontal, 7)
-            .padding(.vertical, 4)
+            .padding(.leading, 7)
         } else {
-            HStack(spacing: 1) {
-                Text(".").foregroundStyle(.secondary)
+            HStack(spacing: 2) {
+                Text(".")
+                    .foregroundStyle(.secondary)
+                    .font(.system(.body, design: .monospaced))
                 TextField("ext", text: $entry.ext)
-                    .textFieldStyle(.plain)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.system(.body, design: .monospaced))
+                    .focused($extFocused)
                     .onChange(of: entry.ext) { newValue in
                         validateAndNormalize(newValue)
                     }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .stroke(extError == nil ? .clear : .red, lineWidth: 1)
+                    )
+                    .help(extError ?? "File extension (a-z, 0-9, . _ -)")
             }
-            .font(.system(.body, design: .monospaced))
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
-            .background(
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(Color(nsColor: .textBackgroundColor))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .strokeBorder(extError == nil ? Color(nsColor: .separatorColor) : Color.red,
-                                  lineWidth: 1)
-            )
-            .help(extError ?? "File extension (a-z, 0-9, . _ -)")
         }
     }
 
