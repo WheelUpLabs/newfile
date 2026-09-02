@@ -23,6 +23,10 @@ struct NewFileApp: App {
                 Button("Check for Updates…") {
                     updaterController.checkForUpdates(nil)
                 }
+                Divider()
+                Button("Uninstall NewFile…") {
+                    UninstallHelper.run()
+                }
             }
         }
 
