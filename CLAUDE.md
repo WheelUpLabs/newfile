@@ -22,12 +22,14 @@ xcodegen generate          # regenerate NewFile.xcodeproj from project.yml
 xcrun xcodebuild -scheme NewFile -configuration Release
 ```
 
-Version lives in `project.yml` (`MARKETING_VERSION` / `CURRENT_PROJECT_VERSION`), currently 0.2.2 / 4, Swift 5.10. Latest tag is `v0.2.2`. `release/` carries the archive, DMG, `ExportOptions.plist`, `resume-notarization.sh` and a per-version runbook — read the runbook before cutting a release.
+Version lives in `project.yml` (`MARKETING_VERSION` / `CURRENT_PROJECT_VERSION`), currently 0.2.3 / 5, Swift 5.10. Latest tag is `v0.2.3`. `release/` carries the archive, DMG, `ExportOptions.plist`, `resume-notarization.sh` and a per-version runbook — read the runbook before cutting a release.
 
 ## Release mechanics (verified 2026-09-02, v0.2.2)
 
 - Notary keychain profile: `newfile-notary`. Sparkle EdDSA key: keychain service `https://sparkle-project.org`, so `sign_update --account newfile` (default account fails).
 - **Codesign the DMG before notarizing** (`codesign -s "Developer ID Application: …" --timestamp NewFile.dmg`), then submit → staple → `spctl -a -t install` = accepted. v0.2.1 and earlier shipped UNSIGNED DMGs (spctl rejected; worked only via the stapled ticket) — v0.2.2 is the first to pass Gatekeeper assessment.
+- **Sandboxed host + Sparkle needs the mach-lookup exceptions** (`<bundle-id>-spks` / `-spki` in `App/NewFile.entitlements`). Without them every update dies with "installation data was never received" (bootstrap lookup denial, xpc error 159) — auto-update was broken from v0.1.0 until v0.2.3, and 0.2.1/0.2.2 users must update manually once. Test any updater change against a loopback appcast (serve a signed zip + appcast on localhost, `defaults write` SUFeedURL into the app container) BEFORE publishing.
+- **Kill the old app process before install-testing a new build** — `osascript quit` fails silently when a dialog is up; a stale process runs the old binary and invalidates the test (`pkill -9 -f NewFile.app`, then verify pid churn).
 - sign_update lives under DerivedData `SourcePackages/artifacts/sparkle/Sparkle/bin/` — deleting DerivedData removes it until the next build.
 
 ## Known traps
