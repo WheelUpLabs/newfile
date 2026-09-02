@@ -46,7 +46,7 @@ The created file is named `New Text File.txt`. If that name exists, it becomes `
 
 ## Customize
 
-Open **NewFile.app → ⌘,** (or click the toolbar dropdown → **Customize…**) to manage file types, templates, menu order, and submenu mode. Leave a base name empty for dotfile-style names (`.env`, `.gitignore`).
+Open **NewFile.app → ⌘,** (or click the toolbar dropdown → **Customize…**) to manage file types, templates, menu order, and submenu mode. Each type has an editable **menu label** (what Finder shows) and a **default filename**; leave the filename empty for dotfile-style names (`.env`, `.gitignore`). The **Add…/Edit…** button per row manages that type's starter template.
 
 ## Build from source
 
