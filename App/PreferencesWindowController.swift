@@ -19,7 +19,7 @@ final class PreferencesWindowController {
         let win = NSWindow(contentViewController: host)
         win.title = "NewFile Preferences"
         win.styleMask = [.titled, .closable, .miniaturizable, .resizable]
-        win.setContentSize(NSSize(width: 520, height: 560))
+        win.setContentSize(NSSize(width: 660, height: 560))
         win.center()
         win.isReleasedWhenClosed = false
         self.window = win
