@@ -13,7 +13,7 @@ final class SettingsStore {
         static let pendingOpenPreferences = "pendingOpenPreferences"
     }
 
-    private static let currentSchema = 1
+    private static let currentSchema = 2
 
     private let defaults: UserDefaults
 
@@ -34,7 +34,7 @@ final class SettingsStore {
         get {
             if let data = defaults.data(forKey: Key.fileTypes),
                let decoded = try? JSONDecoder().decode([FileTypeEntry].self, from: data) {
-                return decoded
+                return migrateIfNeeded(decoded)
             }
             // First read or corrupted JSON — seed and persist.
             let seeded = SeedPresets.builtIns
@@ -65,6 +65,22 @@ final class SettingsStore {
     var pendingOpenPreferences: Bool {
         get { defaults.bool(forKey: Key.pendingOpenPreferences) }
         set { defaults.set(newValue, forKey: Key.pendingOpenPreferences) }
+    }
+
+    /// Schema 1 -> 2: custom types were created with a hardcoded displayName
+    /// of "New file" and no UI to change it (issue #2). Blank those out so the
+    /// menu falls back to the ext-derived label. Runs once, keyed on
+    /// schemaVersion, so a label the user later types as "New file" sticks.
+    private func migrateIfNeeded(_ types: [FileTypeEntry]) -> [FileTypeEntry] {
+        guard defaults.integer(forKey: Key.schema) < 2 else { return types }
+        var migrated = types
+        for i in migrated.indices
+        where !migrated[i].isBuiltIn && migrated[i].displayName == "New file" {
+            migrated[i].displayName = ""
+        }
+        if migrated != types { persist(migrated) }
+        defaults.set(Self.currentSchema, forKey: Key.schema)
+        return migrated
     }
 
     private func persist(_ types: [FileTypeEntry]) {

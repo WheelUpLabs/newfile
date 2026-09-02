@@ -20,7 +20,7 @@ final class SettingsStoreTests: XCTestCase {
     func testFirstRead_writesSchemaVersion() {
         let (store, defaults) = makeStore()
         _ = store.fileTypes
-        XCTAssertEqual(defaults.integer(forKey: "schemaVersion"), 1)
+        XCTAssertEqual(defaults.integer(forKey: "schemaVersion"), 2)
     }
 
     func testWriteAndReadBack() throws {
@@ -63,6 +63,50 @@ final class SettingsStoreTests: XCTestCase {
 
         let enabled = store.enabledTypes
         XCTAssertEqual(enabled.map(\.ext), ["txt", "md", "json"])
+    }
+
+    func testMigration_blanksLegacyHardcodedCustomLabels() throws {
+        let (store, defaults) = makeStore()
+        // Simulate a pre-fix store: schema 1, custom type with the hardcoded label.
+        var types = SeedPresets.builtIns
+        types.append(FileTypeEntry(ext: "png", baseName: "shot", displayName: "New file",
+                                   enabled: true, isBuiltIn: false))
+        defaults.set(try JSONEncoder().encode(types), forKey: "fileTypes")
+        defaults.set(1, forKey: "schemaVersion")
+
+        let migrated = store.fileTypes
+        let png = migrated.first { $0.ext == "png" }!
+        XCTAssertEqual(png.displayName, "")
+        XCTAssertEqual(png.menuTitle, "New .png")
+        XCTAssertEqual(defaults.integer(forKey: "schemaVersion"), 2)
+        // Migration persisted: a fresh decode sees the blanked label too.
+        let reread = try JSONDecoder().decode(
+            [FileTypeEntry].self, from: defaults.data(forKey: "fileTypes")!)
+        XCTAssertEqual(reread.first { $0.ext == "png" }!.displayName, "")
+    }
+
+    func testMigration_leavesBuiltInsAndUserTypedLabelsAlone() throws {
+        let (store, defaults) = makeStore()
+        var types = SeedPresets.builtIns
+        types.append(FileTypeEntry(ext: "png", baseName: "shot", displayName: "Screenshot",
+                                   enabled: true, isBuiltIn: false))
+        defaults.set(try JSONEncoder().encode(types), forKey: "fileTypes")
+        defaults.set(1, forKey: "schemaVersion")
+
+        let migrated = store.fileTypes
+        XCTAssertEqual(migrated.first { $0.ext == "png" }!.displayName, "Screenshot")
+        XCTAssertEqual(migrated.first { $0.ext == "txt" }!.displayName, "New Text File")
+    }
+
+    func testMigration_runsOnce_userCanRetypeNewFileAfterSchema2() throws {
+        let (store, defaults) = makeStore()
+        _ = store.fileTypes  // seeds + stamps schema 2
+        var types = store.fileTypes
+        types.append(FileTypeEntry(ext: "png", baseName: "shot", displayName: "New file",
+                                   enabled: true, isBuiltIn: false))
+        store.fileTypes = types
+        XCTAssertEqual(store.fileTypes.first { $0.ext == "png" }!.displayName, "New file")
+        _ = defaults
     }
 
     func testCorruptedJSON_fallsBackToSeeds() {

@@ -27,6 +27,20 @@ struct FileTypeEntry: Codable, Identifiable, Equatable, Hashable {
         self.isBuiltIn = isBuiltIn
     }
 
+    /// Menu label shown in Finder. Falls back to a label derived from the
+    /// extension when `displayName` is blank (custom types created before the
+    /// label was editable, or deliberately left empty).
+    var menuTitle: String {
+        let trimmed = displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? Self.derivedDisplayName(ext: ext) : trimmed
+    }
+
+    /// Default menu label for a type with no explicit displayName.
+    static func derivedDisplayName(ext: String) -> String {
+        let e = ext.trimmingCharacters(in: .whitespacesAndNewlines)
+        return e.isEmpty ? "New file" : "New .\(e)"
+    }
+
     enum ValidationError: Error, Equatable {
         case empty
         case tooLong

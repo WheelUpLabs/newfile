@@ -28,7 +28,7 @@ final class PreferencesViewModel: ObservableObject {
         let new = FileTypeEntry(
             ext: "",
             baseName: "",
-            displayName: "New file",
+            displayName: "",  // blank -> menuTitle derives from ext
             template: "",
             enabled: true,
             isBuiltIn: false

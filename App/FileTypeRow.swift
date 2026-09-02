@@ -16,9 +16,19 @@ struct FileTypeRow: View {
             extensionField
                 .frame(width: 110)
 
+            TextField(
+                "menu label",
+                text: $entry.displayName,
+                prompt: Text(FileTypeEntry.derivedDisplayName(ext: entry.ext))
+            )
+            .textFieldStyle(.roundedBorder)
+            .frame(maxWidth: .infinity)
+            .help("Label shown in the Finder menu")
+
             TextField("base name", text: $entry.baseName)
                 .textFieldStyle(.roundedBorder)
                 .frame(maxWidth: .infinity)
+                .help("Filename for the created file")
 
             Button("Template…") { showTemplateEditor = true }
                 .buttonStyle(.bordered)

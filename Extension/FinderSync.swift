@@ -126,7 +126,7 @@ final class FinderSync: FIFinderSync {
 
     private func addRow(for entry: FileTypeEntry, to menu: NSMenu) {
         let item = NSMenuItem(
-            title: entry.displayName,
+            title: entry.menuTitle,
             action: #selector(createFromMenuItem(_:)),
             keyEquivalent: ""
         )
@@ -167,7 +167,7 @@ final class FinderSync: FIFinderSync {
     }
 
     private func performCreate(entry: FileTypeEntry) {
-        log.info("create entry=\(entry.displayName, privacy: .public) ext=\(entry.ext, privacy: .public)")
+        log.info("create entry=\(entry.menuTitle, privacy: .public) ext=\(entry.ext, privacy: .public)")
         DistributedNotificationCenter.default().postNotificationName(
             NewFileNotification.toolbarOrMenuUsed,
             object: nil, userInfo: nil, deliverImmediately: true
