@@ -73,6 +73,18 @@ newfile/
 
 The host app (`NewFile.app`) is intentionally minimal — its only job is to embed the Finder Sync extension and present onboarding. All the work happens in `Extension/FinderSync.swift`.
 
+## Uninstall
+
+Quitting NewFile doesn't stop the Finder extension — Finder keeps it running as its own process, which is why macOS can say the app is "in use" when you try to delete it.
+
+**Homebrew:** `brew uninstall --cask newfile` (add `--zap` to also remove your saved file types).
+
+**Manual (DMG install):**
+1. Quit NewFile (⌘Q).
+2. System Settings → General → Login Items & Extensions → Extensions → Finder extensions → uncheck **NewFile**.
+3. Drag NewFile.app from Applications to the Trash.
+4. Optional — remove saved settings: delete `~/Library/Group Containers/Q7VD7MTRL8.dev.newfile.NewFile`.
+
 ## How it works
 
 NewFile is implemented as a [Finder Sync Extension](https://developer.apple.com/documentation/findersync/fifindersync) (`FIFinderSync`) — Apple's supported way to add toolbar buttons and context menus to Finder. It runs sandboxed under macOS's app extension model. No private APIs, no SIMBL, no Finder injection.
