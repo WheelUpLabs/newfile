@@ -14,7 +14,7 @@ struct FileTypeRow: View {
             Toggle("", isOn: $entry.enabled).labelsHidden()
 
             extensionField
-                .frame(width: 110)
+                .frame(width: 110, alignment: .leading)
 
             TextField(
                 "menu label",

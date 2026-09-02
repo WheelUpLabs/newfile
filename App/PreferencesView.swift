@@ -93,7 +93,7 @@ struct PreferencesView: View {
             }
         }
         .padding(20)
-        .frame(minWidth: 520, minHeight: 560)
+        .frame(minWidth: 660, minHeight: 560)
     }
 
     /// Column captions for the row fields. Mirrors FileTypeRow's layout with
